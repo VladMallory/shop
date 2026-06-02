@@ -30,7 +30,7 @@ func (p *Postgres) Create(ctx context.Context, user *domain.User) error {
 }
 
 func (p *Postgres) GetByID(ctx context.Context, id int64) (*domain.User, error) {
-	query := `SELECT id, name, email FROM users WHERE id = $1`
+	query := `SELECT id, username, email FROM users WHERE id = $1`
 
 	var user domain.User
 	err := p.db.QueryRowContext(ctx, query, id).Scan(&user.ID, &user.Name, &user.Email)
@@ -46,7 +46,7 @@ func (p *Postgres) GetByID(ctx context.Context, id int64) (*domain.User, error) 
 }
 
 func (p *Postgres) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
-	query := `SELECT id, name, email, password_hash, created_at FROM users WHERE email = $1`
+	query := `SELECT id, username, email, password_hash, created_at FROM users WHERE email = $1`
 
 	var user domain.User
 	err := p.db.QueryRowContext(ctx, query, email).
