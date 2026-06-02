@@ -53,6 +53,7 @@ func (s *AuthService) Register(ctx context.Context, req domain.RegisterRequest) 
 	}, nil
 }
 
+// nolint:golines
 func (s *AuthService) Login(ctx context.Context, req domain.LoginRequest) (*domain.AuthResponse, error) {
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
