@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"authTest/internal/domain"
+	"authTest/internal/errs"
 	"context"
 	"database/sql"
 	"errors"
@@ -36,7 +37,7 @@ func (p *Postgres) GetByID(ctx context.Context, id int64) (*domain.User, error) 
 	err := p.db.QueryRowContext(ctx, query, id).Scan(&user.ID, &user.Name, &user.Email)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return &domain.User{}, nil
+			return nil, errs.ErrUserIDNotFound
 		}
 
 		return nil, err

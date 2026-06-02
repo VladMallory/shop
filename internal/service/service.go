@@ -34,3 +34,12 @@ func (s *UserService) Register(ctx context.Context, name, email string) (*domain
 
 	return user, nil
 }
+
+func (s *UserService) GetByID(ctx context.Context, id int64) (*domain.User, error) {
+	user, err := s.repo.GetByID(ctx, id)
+	if err != nil {
+		return nil, fmt.Errorf("нет такого пользователя %w", err)
+	}
+
+	return user, nil
+}

@@ -4,6 +4,7 @@ import (
 	"authTest/internal/config"
 	"authTest/internal/handler"
 	"authTest/internal/infrastructure/db"
+	"authTest/internal/middleware"
 	"authTest/internal/repository/postgres"
 	"authTest/internal/service"
 	"net/http"
@@ -43,11 +44,19 @@ func New() (*App, error) {
 
 	// === HANDLER ===
 	authHandler := handler.NewAuthHandler(authService)
+	profileHandler := handler.NewProfileHandler(serviceDB)
 
 	// === HTTP ===
 	mux := http.NewServeMux()
+
+	// Открытые эндпоинты — без middleware
 	mux.HandleFunc("POST /auth/register", authHandler.Register)
 	mux.HandleFunc("POST /auth/login", authHandler.Login)
+
+	// Защищённые эндпоинты, обёрнуты в Auth middleware.
+	mux.Handle(
+		"GET /profile",
+		middleware.Auth(authService)(http.HandlerFunc(profileHandler.GetProfile)))
 
 	server := &http.Server{
 		Addr:    ":8083",

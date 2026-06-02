@@ -39,7 +39,7 @@ func (s *AuthService) Register(ctx context.Context, req domain.RegisterRequest) 
 	}
 
 	if err := s.userRepo.Create(ctx, user); err != nil {
-		return nil, errors.Join(errs.ErrInvalidCredentials, err)
+		return nil, err
 	}
 
 	token, err := s.generateToken(user.ID, user.Email)
@@ -57,7 +57,7 @@ func (s *AuthService) Register(ctx context.Context, req domain.RegisterRequest) 
 func (s *AuthService) Login(ctx context.Context, req domain.LoginRequest) (*domain.AuthResponse, error) {
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
-		return nil, errors.Join(errs.ErrInvalidCredentials, err)
+		return nil, err
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {

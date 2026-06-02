@@ -15,8 +15,6 @@ type Configs struct {
 func Config() *Configs {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("не грузится конфиг")
-
-		return &Configs{}
 	}
 
 	return &Configs{
