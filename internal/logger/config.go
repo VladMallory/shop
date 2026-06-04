@@ -31,3 +31,7 @@ func NewConfigMust() *Config {
 
 	return cfg
 }
+
+//.env
+//LOGGER_FOLDER
+//LOGGER_LOG_LEVEL

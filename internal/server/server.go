@@ -49,7 +49,7 @@ func (s *HTTPServer) Run(ctx context.Context) error {
 	ch := make(chan error, 1)
 	go func() {
 		defer close(ch)
-		s.logger.Warn("starting http server")
+		s.logger.Info("starting http server")
 
 		err := server.ListenAndServe()
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
@@ -64,7 +64,7 @@ func (s *HTTPServer) Run(ctx context.Context) error {
 		}
 	case <-ctx.Done():
 		s.logger.Warn("shutting down http server")
-		
+
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), s.config.ShutdownTimeout)
 		defer cancel()
 

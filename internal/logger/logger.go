@@ -6,6 +6,8 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 type Logger struct {
@@ -28,7 +30,13 @@ func NewLogger(config *Config) (*Logger, error) {
 		return nil, fmt.Errorf("failed to create log folder: %w", err)
 	}
 
-	logFile, err := os.OpenFile(config.Folder, os.O_CREATE|os.O_WRONLY, 0644)
+	timestamp := time.Now().UTC().Format("2026-01-02T15-04-05.000000")
+	logFilePath := filepath.Join(
+		config.Folder,
+		fmt.Sprintf("%s. log", timestamp),
+	)
+
+	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}

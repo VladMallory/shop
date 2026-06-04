@@ -24,7 +24,6 @@ func NewConfig() (*Config, error) {
 func NewConfigMust() *Config {
 	cfg, err := NewConfig()
 	if err != nil {
-		//того рот ебал, нужно переменные окружения писать
 		panic(err)
 	}
 
