@@ -4,6 +4,7 @@ import "authTest/internal/features/product/domain"
 
 type ProductModel struct {
 	ID          int    `db:"id"`
+	Version     int    `db:"version"`
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	Price       int    `db:"price"`

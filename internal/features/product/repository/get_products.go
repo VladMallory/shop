@@ -15,7 +15,7 @@ func (r *ProductRepository) GetProducts(
 	defer cancel()
 
 	query := `
-	SELECT id, title, description, price
+	SELECT id, version, title, description, price
 	FROM products
 	ORDER BY id ASC
 	LIMIT $1
@@ -33,6 +33,7 @@ func (r *ProductRepository) GetProducts(
 		var productModel ProductModel
 		if err := rows.Scan(
 			&productModel.ID,
+			&productModel.Version,
 			&productModel.Title,
 			&productModel.Description,
 			&productModel.Price,

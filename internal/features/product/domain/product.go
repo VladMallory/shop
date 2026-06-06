@@ -8,9 +8,14 @@ import (
 
 type Product struct {
 	ID          int
+	Version     int
 	Title       string
 	Description string
 	Price       int
+}
+
+func NewUninitializedProduct(title string, description string, price int) Product {
+	return
 }
 
 func (p *Product) Validate() error {

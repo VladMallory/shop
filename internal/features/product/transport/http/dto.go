@@ -4,6 +4,7 @@ import "authTest/internal/features/product/domain"
 
 type ProductDTO struct {
 	ID          int    `json:"id"`
+	Version     int    `json:"version"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Price       int    `json:"price"`
@@ -12,6 +13,7 @@ type ProductDTO struct {
 func productDTOFromDomain(product domain.Product) ProductDTO {
 	return ProductDTO{
 		ID:          product.ID,
+		Version:     product.Version,
 		Title:       product.Title,
 		Description: product.Description,
 		Price:       product.Price,

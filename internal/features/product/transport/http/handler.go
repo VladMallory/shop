@@ -13,6 +13,7 @@ type ProductHTTPHandler struct {
 
 type ProductService interface {
 	GetProducts(ctx context.Context, limit *int, offset *int) ([]domain.Product, error)
+	CreateProduct(ctx context.Context)
 }
 
 func NewProductHTTPHandler(productService ProductService) *ProductHTTPHandler {
