@@ -22,9 +22,3 @@ func Logger(logger *core_logger.Logger) Middleware {
 		})
 	}
 }
-
-//REQUEST ID123: incoming request
-//...
-//REQUEST ID123: TRANSPORT LAYER
-//REQUEST ID123: SERVICE LAYER
-//REQUEST ID123: repo layer

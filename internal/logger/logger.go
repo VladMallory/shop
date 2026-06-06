@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/labstack/gommon/log"
 )
 
 type Logger struct {
@@ -33,7 +35,7 @@ func NewLogger(config Config) (*Logger, error) {
 	timestamp := time.Now().UTC().Format("2026-01-02T15-04-05.000000")
 	logFilePath := filepath.Join(
 		config.Folder,
-		fmt.Sprintf("%s. log", timestamp),
+		timestamp+"log",
 	)
 
 	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY, 0644)
@@ -49,6 +51,7 @@ func NewLogger(config Config) (*Logger, error) {
 
 	loggerHandler := slog.NewTextHandler(multiWriter, opts)
 	logger := slog.New(loggerHandler)
+
 	return &Logger{
 		Logger: logger,
 		file:   logFile,
@@ -61,7 +64,7 @@ func (l *Logger) Close() {
 	}
 
 	if err := l.file.Close(); err != nil {
-		fmt.Println("failed to close log file:", err)
+		log.Info(err)
 	}
 }
 
@@ -75,7 +78,6 @@ func (l *Logger) With(fields ...any) *Logger {
 func FromContext(ctx context.Context) *Logger {
 	logger, ok := ctx.Value(loggerKey).(*Logger)
 	if !ok {
-		fmt.Println("logger not found in context")
 		return &Logger{Logger: slog.New(slog.NewTextHandler(os.Stdout, nil))}
 	}
 

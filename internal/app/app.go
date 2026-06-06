@@ -9,44 +9,43 @@ import (
 	"authTest/internal/middleware"
 	http_server "authTest/internal/server"
 	"context"
-	"fmt"
-	"os"
 	"os/signal"
 	"syscall"
 )
 
-func UpdatedRun() {
-	fmt.Println("1")
-	loggerCfg := core_logger.NewConfigMust()
+type App struct {
+	httpServer *http_server.HTTPServer
+}
+
+func New() (*App, error) {
 	ctx, cancel := signal.NotifyContext(
 		context.Background(),
 		syscall.SIGTERM,
 		syscall.SIGINT,
 	)
-
 	defer cancel()
+
+	// === LOGGER ===
+	loggerCfg, err := core_logger.NewConfig()
+	if err != nil {
+		return nil, err
+	}
 
 	logger, err := core_logger.NewLogger(loggerCfg)
 	if err != nil {
-		fmt.Println("https://www.youtube.com/shorts/WR0Uh3-AVNA")
-		os.Exit(1)
+		return nil, err
 	}
-
 	defer logger.Close()
-	logger.Debug("initializing connection pool")
 
 	pool, err := database_postgres.NewConnectionPool(ctx, database_postgres.NewConfigMust())
 	if err != nil {
-		logger.Error("failed to initialize connection pool")
-		os.Exit(1)
+		return nil, err
 	}
 
-	logger.Debug("initializing product feature")
 	productRepository := product_repository.NewProductRepository(pool)
 	productService := product_service.NewProductService(productRepository)
 	productHTTPHandler := product_transport.NewProductHTTPHandler(productService)
 
-	logger.Debug("initializing http server")
 	httpServer := http_server.NewHTTPServer(
 		http_server.NewConfigMust(),
 		logger,
@@ -56,14 +55,20 @@ func UpdatedRun() {
 		middleware.Panic(),
 	)
 
-	logger.Debug("registering routes")
 	apiVersionRouterV1 := http_server.NewAPIVersionRouter(http_server.APIVersionV1)
 	apiVersionRouterV1.RegisterRoutes(productHTTPHandler.Routes()...)
 
 	httpServer.RegisterRouters(apiVersionRouterV1)
 
-	if err := httpServer.Run(ctx); err != nil {
-		logger.Error("HTTP server run error: %w", err)
-		os.Exit(1)
+	return &App{
+		httpServer: httpServer,
+	}, nil
+}
+
+func (a *App) Run() {
+	ctx := context.Background()
+	if err := a.httpServer.Run(ctx); err != nil {
+		return
 	}
+
 }

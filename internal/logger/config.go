@@ -21,15 +21,14 @@ func NewConfig() (Config, error) {
 	return cfg, nil
 }
 
-func NewConfigMust() Config {
-	cfg, err := NewConfig()
-
-	if err != nil {
-		panic(err)
-	}
-
-	return cfg
-}
+// func NewConfigMust() Config {
+// 	cfg, err := NewConfig()
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	return cfg
+// }
 
 // .env
 // LOGGER_FOLDER
