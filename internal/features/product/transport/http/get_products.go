@@ -1,7 +1,7 @@
 package product_transport
 
 import (
-	core_logger "authTest/internal/logger"
+	core_logger "authTest/internal/platform/logger"
 	http_response "authTest/internal/transport/http/response"
 	http_utils "authTest/internal/transport/http/utils"
 	"net/http"
@@ -16,12 +16,14 @@ func (h *ProductHTTPHandler) GetProducts(w http.ResponseWriter, r *http.Request)
 	limit, offset, err := getLimitOffsetQueryParams(r)
 	if err != nil {
 		responseHandler.RespondError("failed to get query params: %w", err)
+
 		return
 	}
 
 	products, err := h.ProductService.GetProducts(ctx, limit, offset)
 	if err != nil {
 		responseHandler.RespondError("failed to get products: %w", err)
+
 		return
 	}
 

@@ -19,16 +19,14 @@ type Logger struct {
 
 type loggerContextKey struct{}
 
-var (
-	loggerKey = loggerContextKey{}
-)
+var loggerKey = loggerContextKey{}
 
 func ContextWithLogger(ctx context.Context, logger *Logger) context.Context {
 	return context.WithValue(ctx, loggerKey, logger)
 }
 
 func NewLogger(config Config) (*Logger, error) {
-	if err := os.MkdirAll(config.Folder, 0755); err != nil {
+	if err := os.MkdirAll(config.Folder, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create log folder: %w", err)
 	}
 
@@ -38,7 +36,7 @@ func NewLogger(config Config) (*Logger, error) {
 		timestamp+"log",
 	)
 
-	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}

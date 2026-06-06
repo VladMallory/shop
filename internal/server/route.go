@@ -1,7 +1,7 @@
 package http_server
 
 import (
-	core_middleware "authTest/internal/middleware"
+	core_middleware "authTest/internal/transport/http/middleware"
 	"net/http"
 )
 

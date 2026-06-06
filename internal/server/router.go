@@ -1,7 +1,7 @@
 package http_server
 
 import (
-	core_middleware "authTest/internal/middleware"
+	core_middleware "authTest/internal/transport/http/middleware"
 	"fmt"
 	"net/http"
 )
@@ -18,7 +18,10 @@ type APIVersionRouter struct {
 	middlewares []core_middleware.Middleware
 }
 
-func NewAPIVersionRouter(apiVersion APIVersion, middleware ...core_middleware.Middleware) *APIVersionRouter {
+func NewAPIVersionRouter(
+	apiVersion APIVersion,
+	middleware ...core_middleware.Middleware,
+) *APIVersionRouter {
 	return &APIVersionRouter{
 		ServeMux:    http.NewServeMux(),
 		apiVersion:  apiVersion,

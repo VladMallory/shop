@@ -1,6 +1,6 @@
 package product_repository
 
-import database_postgres "authTest/internal/infrastructure/db"
+import database_postgres "authTest/internal/platform/db"
 
 type ProductRepository struct {
 	pool *database_postgres.Pool

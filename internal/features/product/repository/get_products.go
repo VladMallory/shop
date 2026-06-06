@@ -1,12 +1,16 @@
 package product_repository
 
 import (
-	"authTest/internal/domain"
+	"authTest/internal/features/product/domain"
 	"context"
 	"fmt"
 )
 
-func (r *ProductRepository) GetProducts(ctx context.Context, limit *int, offset *int) ([]domain.Product, error) {
+func (r *ProductRepository) GetProducts(
+	ctx context.Context,
+	limit *int,
+	offset *int,
+) ([]domain.Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, r.pool.OpTimeout())
 	defer cancel()
 

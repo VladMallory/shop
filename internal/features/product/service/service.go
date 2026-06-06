@@ -1,7 +1,7 @@
 package product_service
 
 import (
-	"authTest/internal/domain"
+	"authTest/internal/features/product/domain"
 	"context"
 )
 

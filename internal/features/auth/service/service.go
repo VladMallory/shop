@@ -1,7 +1,7 @@
 package service
 
 import (
-	"authTest/internal/domain"
+	"authTest/internal/features/user/domain"
 	"context"
 	"fmt"
 )

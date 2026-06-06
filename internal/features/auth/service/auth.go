@@ -1,8 +1,9 @@
 package service
 
 import (
-	"authTest/internal/domain"
 	"authTest/internal/errs"
+	"authTest/internal/features/auth/domain"
+	user_domain "authTest/internal/features/user/domain"
 	"context"
 	"errors"
 	"fmt"
@@ -25,13 +26,16 @@ func NewAuthService(userRepo UserStore, jwtSecret string) *AuthService {
 }
 
 // nolint: golines
-func (s *AuthService) Register(ctx context.Context, req domain.RegisterRequest) (*domain.AuthResponse, error) {
+func (s *AuthService) Register(
+	ctx context.Context,
+	req domain.RegisterRequest,
+) (*domain.AuthResponse, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
 	}
 
-	user := &domain.User{
+	user := &user_domain.User{
 		Name:         req.Name,
 		Email:        req.Email,
 		PasswordHash: string(hash),
@@ -54,7 +58,10 @@ func (s *AuthService) Register(ctx context.Context, req domain.RegisterRequest) 
 }
 
 // nolint:golines
-func (s *AuthService) Login(ctx context.Context, req domain.LoginRequest) (*domain.AuthResponse, error) {
+func (s *AuthService) Login(
+	ctx context.Context,
+	req domain.LoginRequest,
+) (*domain.AuthResponse, error) {
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
 		return nil, err

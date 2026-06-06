@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"authTest/internal/domain"
 	"authTest/internal/errs"
-	"authTest/internal/service"
+	"authTest/internal/features/auth/domain"
+	"authTest/internal/features/auth/service"
 	"encoding/json"
 	"errors"
 	"log/slog"
@@ -24,7 +24,7 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var req domain.RegisterRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		respondWithError(w, http.StatusBadRequest, "неверный формат запроса")
+		RespondWithError(w, http.StatusBadRequest, "неверный формат запроса")
 
 		return
 	}
@@ -33,23 +33,23 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch {
 		case errors.Is(err, errs.ErrUserExists):
-			respondWithError(w, http.StatusConflict, errs.ErrUserExists.Error())
+			RespondWithError(w, http.StatusConflict, errs.ErrUserExists.Error())
 
 		default:
-			respondWithError(w, http.StatusInternalServerError, errs.ErrRegistration.Error())
+			RespondWithError(w, http.StatusInternalServerError, errs.ErrRegistration.Error())
 		}
 
 		return
 	}
 
-	respondWithJSON(w, http.StatusCreated, resp)
+	RespondWithJSON(w, http.StatusCreated, resp)
 }
 
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req domain.LoginRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		respondWithError(w, http.StatusBadRequest, "неверный формат запроса")
+		RespondWithError(w, http.StatusBadRequest, "неверный формат запроса")
 
 		return
 	}
@@ -58,18 +58,18 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch {
 		case errors.Is(err, errs.ErrInvalidCredentials):
-			respondWithError(w, http.StatusUnauthorized, errs.ErrInvalidCredentials.Error())
+			RespondWithError(w, http.StatusUnauthorized, errs.ErrInvalidCredentials.Error())
 		default:
-			respondWithError(w, http.StatusInternalServerError, errs.ErrRegistration.Error())
+			RespondWithError(w, http.StatusInternalServerError, errs.ErrRegistration.Error())
 		}
 
 		return
 	}
 
-	respondWithJSON(w, http.StatusOK, resp)
+	RespondWithJSON(w, http.StatusOK, resp)
 }
 
-func respondWithJSON(w http.ResponseWriter, status int, payload any) {
+func RespondWithJSON(w http.ResponseWriter, status int, payload any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 
@@ -78,6 +78,6 @@ func respondWithJSON(w http.ResponseWriter, status int, payload any) {
 	}
 }
 
-func respondWithError(w http.ResponseWriter, status int, msg string) {
-	respondWithJSON(w, status, map[string]string{"error": msg})
+func RespondWithError(w http.ResponseWriter, status int, msg string) {
+	RespondWithJSON(w, status, map[string]string{"error": msg})
 }

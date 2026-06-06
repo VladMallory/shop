@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	app, err := app.New()
+	application, err := app.New()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	app.Run()
+	application.Run()
 }

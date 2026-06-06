@@ -21,7 +21,10 @@ func (p *Product) Validate() error {
 
 	descriptionLength := utf8.RuneCountInString(p.Description)
 	if descriptionLength < 1 || descriptionLength > 1000 {
-		return fmt.Errorf("description length has to be between 1 and 1000: %w", errs.ErrInvalidArgument)
+		return fmt.Errorf(
+			"description length has to be between 1 and 1000: %w",
+			errs.ErrInvalidArgument,
+		)
 	}
 
 	if p.Price <= 0 {

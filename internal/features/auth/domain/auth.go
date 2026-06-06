@@ -1,8 +1,10 @@
 package domain
 
+import user_domain "authTest/internal/features/user/domain"
+
 type AuthResponse struct {
-	Token string `json:"token"`
-	User  User   `json:"user"`
+	Token string           `json:"token"`
+	User  user_domain.User `json:"user"`
 }
 
 type LoginRequest struct {

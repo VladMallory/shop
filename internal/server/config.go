@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Address         string        `envconfig:"ADDRESS" default:"localhost:8083"`
+	Address         string        `envconfig:"ADDRESS"          default:"localhost:8083"`
 	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" default:"30s"`
 }
 

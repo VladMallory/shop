@@ -1,6 +1,6 @@
 package product_repository
 
-import "authTest/internal/domain"
+import "authTest/internal/features/product/domain"
 
 type ProductModel struct {
 	ID          int    `db:"id"`

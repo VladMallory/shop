@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	core_logger "authTest/internal/logger"
+	core_logger "authTest/internal/platform/logger"
 	"log/slog"
 	"net/http"
 )

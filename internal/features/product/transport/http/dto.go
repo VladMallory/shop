@@ -1,6 +1,6 @@
 package product_transport
 
-import "authTest/internal/domain"
+import "authTest/internal/features/product/domain"
 
 type ProductDTO struct {
 	ID          int    `json:"id"`

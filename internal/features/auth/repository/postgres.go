@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	"authTest/internal/domain"
 	"authTest/internal/errs"
+	"authTest/internal/features/user/domain"
 	"context"
 	"database/sql"
 	"errors"

@@ -1,7 +1,7 @@
 package product_transport
 
 import (
-	"authTest/internal/domain"
+	"authTest/internal/features/product/domain"
 	http_server "authTest/internal/server"
 	"context"
 	"net/http"

@@ -2,7 +2,7 @@ package http_response
 
 import (
 	"authTest/internal/errs"
-	logger "authTest/internal/logger"
+	logger "authTest/internal/platform/logger"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -32,7 +32,6 @@ func (h *HTTPResponseHandler) RespondError(msg string, err error) {
 	)
 
 	if h.logger == nil {
-		fmt.Println("logger is nil")
 		return
 	}
 

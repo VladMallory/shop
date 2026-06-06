@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"authTest/internal/service"
+	"authTest/internal/features/auth/service"
 	"context"
 	"net/http"
 	"strings"

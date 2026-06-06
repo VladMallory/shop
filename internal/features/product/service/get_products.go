@@ -1,13 +1,17 @@
 package product_service
 
 import (
-	"authTest/internal/domain"
 	"authTest/internal/errs"
+	"authTest/internal/features/product/domain"
 	"context"
 	"fmt"
 )
 
-func (s *ProductService) GetProducts(ctx context.Context, limit *int, offset *int) ([]domain.Product, error) {
+func (s *ProductService) GetProducts(
+	ctx context.Context,
+	limit *int,
+	offset *int,
+) ([]domain.Product, error) {
 	if limit != nil && *limit < 1 {
 		return nil, fmt.Errorf("limit cannot be below 1: %w", errs.ErrInvalidArgument)
 	}

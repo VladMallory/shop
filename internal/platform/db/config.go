@@ -7,12 +7,12 @@ import (
 )
 
 type Config struct {
-	User     string        `envconfig:"USER" required:"true"`
+	User     string        `envconfig:"USER"     required:"true"`
 	Password string        `envconfig:"PASSWORD" required:"true"`
-	Host     string        `envconfig:"HOST" required:"true"`
-	Port     string        `envconfig:"PORT" required:"true"`
-	Database string        `envconfig:"DB" required:"true"`
-	Timeout  time.Duration `envconfig:"TIMEOUT" required:"true"`
+	Host     string        `envconfig:"HOST"     required:"true"`
+	Port     string        `envconfig:"PORT"     required:"true"`
+	Database string        `envconfig:"DB"       required:"true"`
+	Timeout  time.Duration `envconfig:"TIMEOUT"  required:"true"`
 }
 
 func NewConfig() (Config, error) {

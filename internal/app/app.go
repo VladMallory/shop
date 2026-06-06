@@ -3,11 +3,11 @@ package app
 import (
 	product_repository "authTest/internal/features/product/repository"
 	product_service "authTest/internal/features/product/service"
-	product_transport "authTest/internal/features/product/transport"
-	database_postgres "authTest/internal/infrastructure/db"
-	core_logger "authTest/internal/logger"
-	"authTest/internal/middleware"
+	product_transport "authTest/internal/features/product/transport/http"
+	database_postgres "authTest/internal/platform/db"
+	core_logger "authTest/internal/platform/logger"
 	http_server "authTest/internal/server"
+	"authTest/internal/transport/http/middleware"
 	"context"
 	"os/signal"
 	"syscall"
@@ -70,5 +70,4 @@ func (a *App) Run() {
 	if err := a.httpServer.Run(ctx); err != nil {
 		return
 	}
-
 }

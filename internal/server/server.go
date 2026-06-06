@@ -1,8 +1,8 @@
 package http_server
 
 import (
-	core_logger "authTest/internal/logger"
-	core_middleware "authTest/internal/middleware"
+	core_logger "authTest/internal/platform/logger"
+	core_middleware "authTest/internal/transport/http/middleware"
 	"context"
 	"errors"
 	"fmt"
@@ -65,11 +65,15 @@ func (s *HTTPServer) Run(ctx context.Context) error {
 	case <-ctx.Done():
 		s.logger.Warn("shutting down http server")
 
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), s.config.ShutdownTimeout)
+		shutdownCtx, cancel := context.WithTimeout(ctx, s.config.ShutdownTimeout)
 		defer cancel()
 
 		if err := server.Shutdown(shutdownCtx); err != nil {
-			_ = server.Close()
+			err = server.Close()
+			if err != nil {
+				return err
+			}
+
 			return fmt.Errorf("shutdown server: %w", err)
 		}
 	}

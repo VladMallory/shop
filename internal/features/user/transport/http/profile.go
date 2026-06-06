@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"authTest/internal/middleware"
-	"authTest/internal/service"
+	"authTest/internal/features/auth/service"
+	auth_handler "authTest/internal/features/auth/transport/http"
+	"authTest/internal/transport/http/middleware"
 	"log/slog"
 	"net/http"
 )
@@ -23,10 +24,10 @@ func (h *ProfileHandler) GetProfile(w http.ResponseWriter, r *http.Request) {
 	user, err := h.userService.GetByID(r.Context(), userID)
 	if err != nil {
 		slog.Error("get profile", "error", err)
-		respondWithError(w, http.StatusNotFound, "пользователь не найден")
+		auth_handler.RespondWithError(w, http.StatusNotFound, "пользователь не найден")
 
 		return
 	}
 
-	respondWithJSON(w, http.StatusOK, user)
+	auth_handler.RespondWithJSON(w, http.StatusOK, user)
 }
