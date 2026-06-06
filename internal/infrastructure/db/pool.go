@@ -10,7 +10,7 @@ import (
 
 type Pool struct {
 	*pgxpool.Pool
-	OpTimeout time.Duration
+	opTimeout time.Duration
 }
 
 func NewConnectionPool(ctx context.Context, config Config) (*Pool, error) {
@@ -39,6 +39,10 @@ func NewConnectionPool(ctx context.Context, config Config) (*Pool, error) {
 
 	return &Pool{
 		Pool:      pool,
-		OpTimeout: config.Timeout,
+		opTimeout: config.Timeout,
 	}, nil
+}
+
+func (p *Pool) OpTimeout() time.Duration {
+	return p.opTimeout
 }

@@ -1,7 +1,12 @@
 include .env
 export
 
-export PROJECT_ROOT=$(shell pwd)
+export PROJECT_ROOT="."
+run:
+	@export LOGGER_FOLDER=${PROJECT_ROOT}/out/logs && \
+	export POSTGRES_HOST=localhost && \
+	go mod tidy && \
+	go run ${PROJECT_ROOT}/cmd/myapp/main.go
 
 dcw:
 	docker compose down

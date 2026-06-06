@@ -8,6 +8,10 @@ import (
 
 type APIVersion string
 
+const (
+	APIVersionV1 = "v1"
+)
+
 type APIVersionRouter struct {
 	*http.ServeMux
 	apiVersion  APIVersion

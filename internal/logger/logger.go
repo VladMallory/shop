@@ -25,7 +25,7 @@ func ContextWithLogger(ctx context.Context, logger *Logger) context.Context {
 	return context.WithValue(ctx, loggerKey, logger)
 }
 
-func NewLogger(config *Config) (*Logger, error) {
+func NewLogger(config Config) (*Logger, error) {
 	if err := os.MkdirAll(config.Folder, 0755); err != nil {
 		return nil, fmt.Errorf("failed to create log folder: %w", err)
 	}
@@ -44,7 +44,7 @@ func NewLogger(config *Config) (*Logger, error) {
 	multiWriter := io.MultiWriter(os.Stdout, logFile)
 	opts := &slog.HandlerOptions{
 		AddSource: true,
-		Level:     config.LogLevel,
+		Level:     slog.Level(config.LogLevel),
 	}
 
 	loggerHandler := slog.NewTextHandler(multiWriter, opts)

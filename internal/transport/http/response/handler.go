@@ -31,6 +31,11 @@ func (h *HTTPResponseHandler) RespondError(msg string, err error) {
 		logFunc    func(string, ...any)
 	)
 
+	if h.logger == nil {
+		fmt.Println("logger is nil")
+		return
+	}
+
 	switch {
 	case errors.Is(err, errs.ErrNotFound):
 		statusCode = http.StatusNotFound
@@ -53,7 +58,7 @@ func (h *HTTPResponseHandler) RespondError(msg string, err error) {
 func (h *HTTPResponseHandler) RespondJSON(statusCode int, data any) {
 	h.w.WriteHeader(statusCode)
 
-	if err := json.NewEncoder(h.w).Encode(&data); err != nil {
+	if err := json.NewEncoder(h.w).Encode(data); err != nil {
 		h.logger.Error("failed to encode response data", slog.Any("error", err))
 	}
 }
@@ -71,7 +76,7 @@ func (h *HTTPResponseHandler) respondError(statusCode int, msg string, err error
 		"error":   errMsg,
 	}
 
-	if err := json.NewEncoder(h.w).Encode(&message); err != nil {
+	if err := json.NewEncoder(h.w).Encode(message); err != nil {
 		h.logger.Error("failed to encode response data", slog.Any("error", err))
 	}
 }

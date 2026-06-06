@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	product_repository "authTest/internal/features/product/repository"
@@ -15,30 +15,7 @@ import (
 	"syscall"
 )
 
-func main() {
-	// app, err := app.New()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//
-	// if err := app.Run(); err != nil {
-	// 	log.Fatal(err)
-	// }
-	// // Открываем текущую директорию "."
-	// files, err := os.ReadDir(".")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//
-	// fmt.Println("Файлы в директории:")
-	// for _, file := range files {
-	// 	// Проверяем, что это файл, а не папка
-	// 	if !file.IsDir() {
-	// 		fmt.Println("-", file.Name())
-	// 	}
-	// }
-	//
-	// app.UpdatedRun()
+func UpdatedRun() {
 	fmt.Println("1")
 	loggerCfg := core_logger.NewConfigMust()
 	ctx, cancel := signal.NotifyContext(
