@@ -1,3 +1,6 @@
 .env
 /logs
 /out
+
+.DS_Store
+.idea/
