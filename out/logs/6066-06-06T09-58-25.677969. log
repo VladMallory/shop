@@ -1,0 +1,9 @@
+time=2026-06-06T12:58:25.678+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/cmd/myapp/main.go:59 msg="initializing connection pool"
+time=2026-06-06T12:58:25.784+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/cmd/myapp/main.go:67 msg="initializing product feature"
+time=2026-06-06T12:58:25.784+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/cmd/myapp/main.go:72 msg="initializing http server"
+time=2026-06-06T12:58:25.784+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/cmd/myapp/main.go:82 msg="registering routes"
+time=2026-06-06T12:58:25.785+03:00 level=INFO source=C:/Users/peche/GolandProjects/shop/internal/server/server.go:52 msg="starting http server"
+time=2026-06-06T12:58:32.649+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/internal/middleware/Trace.go:18 msg="incoming http request" requestID=e88e8d74-d188-46c3-aec6-940293445d2d url=/api/v1/products
+time=2026-06-06T12:58:32.650+03:00 level=ERROR source=C:/Users/peche/GolandProjects/shop/internal/transport/http/response/handler.go:90 msg="got unexpected panic" requestID=e88e8d74-d188-46c3-aec6-940293445d2d url=/api/v1/products error="unexpected panic: runtime error: invalid memory address or nil pointer dereference"
+time=2026-06-06T12:58:32.650+03:00 level=DEBUG source=C:/Users/peche/GolandProjects/shop/internal/middleware/Trace.go:23 msg="Finnished handling http request" requestID=e88e8d74-d188-46c3-aec6-940293445d2d url=/api/v1/products "HTTP method"=GET "handling duration"=0s status_code=500
+time=2026-06-06T13:08:23.663+03:00 level=WARN source=C:/Users/peche/GolandProjects/shop/internal/server/server.go:66 msg="shutting down http server"

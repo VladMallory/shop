@@ -1,79 +1,74 @@
 package app
 
 import (
-	"authTest/internal/config"
-	"authTest/internal/handler"
-	"authTest/internal/infrastructure/db"
+	product_repository "authTest/internal/features/product/repository"
+	product_service "authTest/internal/features/product/service"
+	product_transport "authTest/internal/features/product/transport"
+	database_postgres "authTest/internal/infrastructure/db"
+	core_logger "authTest/internal/logger"
 	"authTest/internal/middleware"
-	"authTest/internal/repository/postgres"
-	"authTest/internal/service"
-	"net/http"
-
-	_ "github.com/lib/pq" // Драйвер для Postgres
+	http_server "authTest/internal/server"
+	"context"
+	"os/signal"
+	"syscall"
 )
 
-type dbRun interface {
-	Start()
-}
-
 type App struct {
-	db         dbRun
-	httpServer *http.Server
+	httpServer *http_server.HTTPServer
 }
-
-// func close(body io.Closer, inputErr *error) {
-// 	if err := body.Close(); err != nil {
-// 		*inputErr = err
-// 	}
-// }
 
 func New() (*App, error) {
-	cfg := config.Config()
+	ctx, cancel := signal.NotifyContext(
+		context.Background(),
+		syscall.SIGTERM,
+		syscall.SIGINT,
+	)
+	defer cancel()
 
-	// === DB ===
-	dbConn, err := db.InitDB("postgres://myuser:mypassword@localhost:5432/mydb?sslmode=disable")
+	// === LOGGER ===
+	loggerCfg, err := core_logger.NewConfig()
 	if err != nil {
 		return nil, err
 	}
 
-	postgresRepo := postgres.NewPostgres(dbConn)
+	logger, err := core_logger.NewLogger(loggerCfg)
+	if err != nil {
+		return nil, err
+	}
+	defer logger.Close()
 
-	serviceDB := service.NewUserService(postgresRepo)
-
-	authService := service.NewAuthService(postgresRepo, cfg.JWTToken)
-
-	// === HANDLER ===
-	authHandler := handler.NewAuthHandler(authService)
-	profileHandler := handler.NewProfileHandler(serviceDB)
-
-	// === HTTP ===
-	mux := http.NewServeMux()
-
-	// Открытые эндпоинты — без middleware
-	mux.HandleFunc("POST /auth/register", authHandler.Register)
-	mux.HandleFunc("POST /auth/login", authHandler.Login)
-
-	// Защищённые эндпоинты, обёрнуты в Auth middleware.
-	mux.Handle(
-		"GET /profile",
-		middleware.Auth(authService)(http.HandlerFunc(profileHandler.GetProfile)))
-
-	server := &http.Server{
-		Addr:    ":8083",
-		Handler: mux,
+	pool, err := database_postgres.NewConnectionPool(ctx, database_postgres.NewConfigMust())
+	if err != nil {
+		return nil, err
 	}
 
+	productRepository := product_repository.NewProductRepository(pool)
+	productService := product_service.NewProductService(productRepository)
+	productHTTPHandler := product_transport.NewProductHTTPHandler(productService)
+
+	httpServer := http_server.NewHTTPServer(
+		http_server.NewConfigMust(),
+		logger,
+		middleware.RequestID(),
+		middleware.Logger(logger),
+		middleware.Trace(),
+		middleware.Panic(),
+	)
+
+	apiVersionRouterV1 := http_server.NewAPIVersionRouter(http_server.APIVersionV1)
+	apiVersionRouterV1.RegisterRoutes(productHTTPHandler.Routes()...)
+
+	httpServer.RegisterRouters(apiVersionRouterV1)
+
 	return &App{
-		db:         serviceDB,
-		httpServer: server,
+		httpServer: httpServer,
 	}, nil
 }
 
-func (a *App) Run() error {
-	// === DB ===
-	a.db.Start()
+func (a *App) Run() {
+	ctx := context.Background()
+	if err := a.httpServer.Run(ctx); err != nil {
+		return
+	}
 
-	a.httpServer.ListenAndServe()
-
-	return nil
 }

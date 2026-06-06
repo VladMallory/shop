@@ -1,0 +1,2 @@
+time=2026-06-05T22:51:54.445+03:00 level=INFO source=C:/Users/peche/GolandProjects/shop/internal/server/server.go:52 msg="starting http server"
+time=2026-06-05T22:53:49.809+03:00 level=WARN source=C:/Users/peche/GolandProjects/shop/internal/server/server.go:66 msg="shutting down http server"

@@ -11,4 +11,7 @@ var (
 	ErrRegistration       = errors.New("registration failed")
 	ErrInvalidToken       = errors.New("invalid or expired token")
 	ErrUserIDNotFound     = errors.New("user_id not found in token")
+	ErrNotFound           = errors.New("not found")
+	ErrInvalidArgument    = errors.New("invalid argument")
+	ErrConflict           = errors.New("conflict")
 )

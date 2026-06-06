@@ -1,0 +1,2 @@
+time=2026-06-05T22:50:31.675+03:00 level=INFO source=C:/Users/peche/GolandProjects/shop/internal/server/server.go:52 msg="starting http server"
+time=2026-06-05T22:50:31.701+03:00 level=ERROR source=C:/Users/peche/GolandProjects/shop/internal/app/new_app.go:66 msg="HTTP server run error: %w" !BADKEY="run server error: listen tcp: address 8080: missing port in address"
