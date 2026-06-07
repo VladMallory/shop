@@ -13,6 +13,7 @@ type ProductModel struct {
 func taskDomainFromModel(model ProductModel) domain.Product {
 	return domain.Product{
 		ID:          model.ID,
+		Version:     model.Version,
 		Title:       model.Title,
 		Description: model.Description,
 		Price:       model.Price,

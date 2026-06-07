@@ -2,7 +2,6 @@ package http_utils
 
 import (
 	"authTest/internal/errs"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -11,7 +10,7 @@ import (
 func GetIntQueryParam(r *http.Request, key string) (*int, error) {
 	val := r.URL.Query().Get(key)
 	if val == "" {
-		return nil, errors.New("передано пустое значение")
+		return nil, nil
 	}
 
 	intVal, err := strconv.Atoi(val)

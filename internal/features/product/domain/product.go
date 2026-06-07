@@ -6,6 +6,11 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	productIDUinitialized       = -1
+	productVersionUninitialized = -1
+)
+
 type Product struct {
 	ID          int
 	Version     int
@@ -15,7 +20,13 @@ type Product struct {
 }
 
 func NewUninitializedProduct(title string, description string, price int) Product {
-	return
+	return Product{
+		ID:          productIDUinitialized,
+		Version:     productVersionUninitialized,
+		Title:       title,
+		Description: description,
+		Price:       price,
+	}
 }
 
 func (p *Product) Validate() error {
