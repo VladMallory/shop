@@ -31,5 +31,5 @@ func (r *ProductRepository) CreateProduct(ctx context.Context, product domain.Pr
 		return domain.Product{}, fmt.Errorf("failed to create product: %w", err)
 	}
 
-	return taskDomainFromModel(productModel), nil
+	return productDomainFromModel(productModel), nil
 }

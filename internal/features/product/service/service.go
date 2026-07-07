@@ -11,7 +11,9 @@ type ProductService struct {
 
 type ProductRepository interface {
 	GetProducts(ctx context.Context, limit *int, offset *int) ([]domain.Product, error)
+	GetProduct(ctx context.Context, id int) (domain.Product, error)
 	CreateProduct(ctx context.Context, product domain.Product) (domain.Product, error)
+	PatchProduct(ctx context.Context, id int, patched_product domain.Product) (domain.Product, error)
 }
 
 func NewProductService(productRepository ProductRepository) *ProductService {

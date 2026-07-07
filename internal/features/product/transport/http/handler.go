@@ -15,6 +15,7 @@ type ProductService interface {
 	GetProducts(ctx context.Context, limit *int, offset *int) ([]domain.Product, error)
 	GetProduct(ctx context.Context, id int) (domain.Product, error)
 	CreateProduct(ctx context.Context, product domain.Product) (domain.Product, error)
+	PathProduct(ctx context.Context, id int, patch domain.ProductPatch) (domain.Product, error)
 }
 
 func NewProductHTTPHandler(productService ProductService) *ProductHTTPHandler {
@@ -29,6 +30,11 @@ func (p *ProductHTTPHandler) Routes() []http_server.Route {
 			Method:  http.MethodGet,
 			Path:    "/products",
 			Handler: p.GetProducts,
+		},
+		{
+			Method:  http.MethodGet,
+			Path:    "/products/{id}",
+			Handler: p.GetProduct,
 		},
 		{
 			Method:  http.MethodPost,

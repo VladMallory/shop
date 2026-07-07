@@ -10,7 +10,7 @@ type ProductModel struct {
 	Price       int    `db:"price"`
 }
 
-func taskDomainFromModel(model ProductModel) domain.Product {
+func productDomainFromModel(model ProductModel) domain.Product {
 	return domain.Product{
 		ID:          model.ID,
 		Version:     model.Version,
@@ -20,10 +20,10 @@ func taskDomainFromModel(model ProductModel) domain.Product {
 	}
 }
 
-func tasksDomainFromModels(models []ProductModel) []domain.Product {
+func productDomainFromModels(models []ProductModel) []domain.Product {
 	products := make([]domain.Product, len(models))
 	for i, model := range models {
-		products[i] = taskDomainFromModel(model)
+		products[i] = productDomainFromModel(model)
 	}
 
 	return products

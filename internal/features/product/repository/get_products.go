@@ -48,5 +48,5 @@ func (r *ProductRepository) GetProducts(
 		return nil, fmt.Errorf("rows next error: %w", err)
 	}
 
-	return tasksDomainFromModels(productModels), nil
+	return productDomainFromModels(productModels), nil
 }
